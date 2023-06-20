@@ -1,0 +1,169 @@
+from flask import Flask, render_template, request
+import csv
+from datetime import datetime
+
+app = Flask(__name__)
+
+@app.route('/')
+def display_table():
+    # Read the CSV file and store the data
+    with open('data.csv', 'r') as file:
+        csv_data = csv.reader(file)
+        data = list(csv_data)
+    
+    # Get the column headers from the first row of the CSV data
+    headers = data[0]
+    
+    # Remove the headers from the data list
+    data = data[1:]
+    
+    # Get the selected checkboxes from the query parameters
+    selected_checkboxes = request.args.getlist('checkbox')
+    
+    # Get the search query from the query parameters
+    search_query = request.args.get('search')
+    
+    # Get the from and to dates from the query parameters
+    from_date = request.args.get('from')
+    to_date = request.args.get('to')
+    
+    # Filter the data based on the selected checkboxes, search query, and date range
+    filtered_data = []
+    if selected_checkboxes:
+        for row in data:
+            status_code = row[headers.index('RESPONSE')]
+            if (status_code.startswith('40') and '40x' in selected_checkboxes) or \
+               (status_code.startswith('20') and '20x' in selected_checkboxes):
+                filtered_data.append(row)
+    else:
+        filtered_data = data 
+    
+    # Apply date range filtering if both from and to dates are provided
+    if from_date and to_date:
+        filtered_data = filter_data_by_date_range(filtered_data, headers, from_date, to_date)
+    
+    # Pass the filtered data, headers, and search query to the template for rendering
+    return render_template('index.html', data=filtered_data, headers=headers)
+
+def filter_data_by_date_range(data, headers, from_date, to_date):
+    filtered_data = []
+    from_date_obj = datetime.strptime(from_date, '%Y-%m-%d')
+    to_date_obj = datetime.strptime(to_date, '%Y-%m-%d')
+    for row in data:
+        timestamp_column = row[headers.index('TIMESTAMP')]
+        # Convert the timestamp string to datetime object
+        timestamp = datetime.strptime(timestamp_column, '%d/%b/%Y:%H:%M:%S %z')
+        # Extract the date part from the timestamp
+        timestamp_date = timestamp.date()
+        if from_date_obj <= timestamp_date <= to_date_obj:
+            filtered_data.append(row)
+    return filtered_data
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5003)
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="{{url_for('static',filename='search.js')}}"></script>
+    <title>CSV Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        td:last-child {
+            border-right: none;
+        }
+
+        .date-range {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .date-range input[type="date"] {
+            width: 200px;
+            padding: 5px;
+        }
+
+        .date-range button {
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="date-range">
+        <label for="from-date">From:</label>
+        <input type="date" name="from-date" id="from-date">
+        <label for="to-date">To:</label>
+        <input type="date" name="to-date" id="to-date">
+        <button type="button" onclick="filterByDate()">Filter</button>
+    </div>
+    
+    <form action="/" method="GET">
+        <input type="checkbox" name="checkbox" value="40x" id="40x-checkbox">
+        <label for="40x-checkbox">40x</label>
+        <input type="checkbox" name="checkbox" value="20x" id="20x-checkbox">
+        <label for="20x-checkbox">20x</label>
+        <button type="submit">Filter</button>
+    </form>
+   
+    <table>
+        <thead>
+            <tr>
+                <th>Sr. No</th>
+                {% for header in headers %}
+                <th>{{ header }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for index,row in data %}
+            <tr>
+                <td>{{ index + 1 }}</td>
+                {% for cell in row %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function filterByDate() {
+            var fromDate = document.getElementById("from-date").value;
+            var toDate = document.getElementById("to-date").value;
+
+            // Perform any necessary date filtering logic here
+            // You can update the table or submit the form with the selected date range
+            // For example, you can add the selected date range as query parameters to the form action URL
+            var form = document.querySelector('form');
+            form.action = form.action + '?from=' + fromDate + '&to=' + toDate;
+            form.submit();
+        }
+    </script>
+</body>
+</html>
+
+
+
