@@ -19,11 +19,11 @@ def show_table():
     response_50x = request.args.get('50x')
 
     if response_40x:
-        df = df[df['RESPONSE'].astype(str).str.startswith('4')]
+        df = df[df['RESPONSE'].astype(str).str.startswith('40')]
     if response_20x:
-        df = df[df['RESPONSE'].astype(str).str.startswith('2')]
+        df = df[df['RESPONSE'].astype(str).str.startswith('20')]
     if response_50x:
-        df = df[df['RESPONSE'].astype(str).str.startswith('5')]
+        df = df[df['RESPONSE'].astype(str).str.startswith('50')]
 
     url = request.base_url
     if response_40x:
