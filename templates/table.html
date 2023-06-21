@@ -80,7 +80,7 @@
             align-items: center;
             margin-bottom: 10px;
         }
-        
+
         .checkboxes-container label {
             display: flex;
             align-items: center;
@@ -117,6 +117,22 @@
                 icon.style.transform = "rotate(0deg)";
             }, 2000); // Adjust the time as needed (in milliseconds)
         }
+
+        function handleCheckboxChange() {
+            var checkbox20x = document.getElementById("20x");
+            var checkbox40x = document.getElementById("40x");
+            var checkbox50x = document.getElementById("50x");
+
+            if (checkbox20x.checked) {
+                checkbox40x.checked = true;
+            }
+            if (checkbox50x.checked) {
+                checkbox20x.checked = true;
+                checkbox40x.checked = true;
+            }
+
+        }
+
         function filterTable() {
             var input = document.getElementById('search-input');
             var filter = input.value.toUpperCase();
@@ -150,12 +166,12 @@
             </label>
 
             <label for="20x">
-                <input type="checkbox" id="20x" name="20x" value="20x">
+                <input type="checkbox" id="20x" name="20x" value="20x" onchange="handleCheckboxChange()">
                 20x
             </label>
 
             <label for="50x">
-                <input type="checkbox" id="50x" name="50x" value="50x">
+                <input type="checkbox" id="50x" name="50x" value="50x" onchange="handleCheckboxChange()">
                 50x
             </label>
         </div>
