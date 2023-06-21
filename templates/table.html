@@ -80,6 +80,17 @@
             align-items: center;
             margin-bottom: 10px;
         }
+        
+        .checkboxes-container label {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .checkboxes-container input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
         .search-area {
             position: absolute;
             top: 20px;
@@ -133,15 +144,20 @@
     
     <form class="filter-form" action="/" method="GET">
         <div class="checkboxes-container">
-            
-            <label for="40x">40x:</label>
-            <input type="checkbox" id="40x" name="40x" value="40x">
+            <label for="40x">
+                <input type="checkbox" id="40x" name="40x" value="40x">
+                40x
+            </label>
 
-            <label for="20x">20x:</label>
-            <input type="checkbox" id="20x" name="20x" value="20x">
+            <label for="20x">
+                <input type="checkbox" id="20x" name="20x" value="20x">
+                20x
+            </label>
 
-            <label for="50x">50x:</label>
-            <input type="checkbox" id="50x" name="50x" value="50x">
+            <label for="50x">
+                <input type="checkbox" id="50x" name="50x" value="50x">
+                50x
+            </label>
         </div>
 
         <label for="from_date">From Date:</label>
@@ -164,4 +180,3 @@
     {{ table|safe }}
 </body>
 </html>
-
