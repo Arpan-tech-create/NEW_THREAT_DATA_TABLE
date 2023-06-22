@@ -9,7 +9,7 @@ TIMESTAMP,IP,MESSAGE,RESPONSE,URI
 10/Nov/2022:09:37:49:+0530,192.168.0.8,GET or HEAD request with body content,200,/uri8
 10/Nov/2022:10:48:01:+0530,192.168.0.9,GET or HEAD request with body content,403,/uri9
 10/Nov/2022:11:55:46:+0530,192.168.0.10,SQLi bypass attempt by ticks or backticks detected,403,/uri10
-10/Nov/2022:13:02:19:+0530,192.168.0.11,GET or HEAD request with body content,200,/uri11
+10/Nov/2022:13:02:19:+0530,192.168.0.11,GET or HEAD request with body content,203,/uri11
 11/Nov/2022:14:21:37:+0530,192.168.0.12,Host header is numeric IP address,200,/uri12
 11/Nov/2022:15:33:52:+0530,192.168.0.13,Unbound anomaly score exceeded,200,/uri13
 11/Nov/2022:16:45:02:+0530,192.168.0.14,Host header is numeric IP address,403,/uri14
