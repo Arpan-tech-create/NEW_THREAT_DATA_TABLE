@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pie Chart</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</head>
+<body>
+    <div id="pieChart"></div>
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve data from Flask route
+            var data = {{ data | safe }};
+
+            // Create the pie chart using Highcharts.js
+            Highcharts.chart('pieChart', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Pie Chart'
+                },
+                series: [{
+                    name: 'Occurrences',
+                    colorByPoint: true,
+                    data: data
+                }]
+            });
+        });
+    </script>
+</body>
+</html>
