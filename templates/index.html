@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log Data</title>
+</head>
+<body>
+    <h1>Log Data</h1>
+    <form action="/" method="GET">
+        From Date: <input type="date" name="from_date">
+        To Date: <input type="date" name="to_date">
+        <input type="submit" value="Filter">
+    </form>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>IP</th>
+                <th>Message</th>
+                <th>Response</th>
+                <th>URI</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log[0] }}</td>
+                <td>{{ log[1] }}</td>
+                <td>{{ log[2] }}</td>
+                <td>{{ log[3] }}</td>
+                <td>{{ log[4] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

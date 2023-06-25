@@ -115,10 +115,15 @@
         <label><input type="checkbox" name="response" value="20x" class="response-checkbox"> 20x</label>
         <label><input type="checkbox" name="response" value="40x" class="response-checkbox"> 40x</label>
         <!-- Add more checkboxes as needed -->
+        <label for="from_date">From:</label>
+        <input type="date" name="from_date" id="from_date">
+        <label for="to_date">To:</label>
+        <input type="date" name="to_date" id="to_date">
+
         <button type="submit">Filter</button>
     </form>
     
-    <table>
+    <table class="data">
         <thead>
             <tr>
                 <th>TIMESTAMP</th>

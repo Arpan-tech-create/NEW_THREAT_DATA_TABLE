@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,28 +6,38 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
-    <div id="pieChart"></div>
+   
+    <div id="container"></div>
 
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
+      
             // Retrieve data from Flask route
-            var data = {{ data | safe }};
+          
+            var data1 = {{ data1 | tojson }};
 
-            // Create the pie chart using Highcharts.js
-            Highcharts.chart('pieChart', {
-                chart: {
-                    type: 'pie'
-                },
+
+        var chartConfig = {
+            chart: {
+                type: 'column',
+                renderTo: 'container'
+            },
+            title: {
+                text: 'Occurrences by Date'
+            },
+            xAxis: {
+                categories: data1.map(function(item) { return item.date; })
+            },
+            yAxis: {
                 title: {
-                    text: 'Pie Chart'
-                },
-                series: [{
-                    name: 'Occurrences',
-                    colorByPoint: true,
-                    data: data
-                }]
-            });
-        });
+                    text: 'Occurrences'
+                }
+            },
+            series: [{
+                name: 'Occurrences',
+                data: data1.map(function(item) { return item.occurrences; })
+            }]
+        };
+        var chart = new Highcharts.Chart(chartConfig);
     </script>
 </body>
 </html>

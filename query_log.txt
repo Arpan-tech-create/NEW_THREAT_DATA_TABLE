@@ -1,0 +1,4 @@
+(1) near "threat": syntax error in "select IP ffrom threat;"
+(1) near "threat": syntax error in "select IP ffrom threat;"
+(1) near ">>": syntax error in ">>logfile.txt;"
+(1) no such table: msg in "select MESSAGE,count(*) from  msg group by MESSAGE;"
