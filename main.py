@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 def convert_timestamp(timestamp):
     # Convert the timestamp to a compatible format for SQLite
-    dt = datetime.strptime(timestamp, '%d/%b/%Y:%H:%M:%S:+%f')
+    dt = datetime.strptime(timestamp, '%d/%b/%Y:%H:%M:%S +%f')
     return dt.strftime('%Y-%m-%d %H:%M:%S')
 
 def get_filtered_results(from_date_obj, to_date_obj, selected_responses=None):
