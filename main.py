@@ -71,5 +71,45 @@ def index():
 
     return render_template('table.html', data=data)
 
+
+@app.route('/piechart')
+def piechart():
+    # Connect to the SQLite database
+    conn = sqlite3.connect('vedas.db')
+    cursor = conn.cursor()
+
+    # Execute the query to count occurrences of each message in the 403 responses
+    cursor.execute("SELECT MESSAGE, COUNT(*) AS Occurrences FROM threat WHERE RESPONSE = 403 GROUP BY MESSAGE")
+    results = cursor.fetchall()
+
+    # Prepare data for the pie chart
+    data = []
+    for row in results: 
+        message = row[0]
+        occurrences = row[1]
+        data.append({'name': message, 'y': occurrences})
+    
+    results1 = cursor.execute("""
+        SELECT COUNT(*) AS occurrences, SUBSTR(TIMESTAMP, 1, 11) AS date
+        FROM threat
+        GROUP BY date
+        HAVING date IN ('09/Nov/2022', '10/Nov/2022', '11/Nov/2022')
+    """).fetchall()
+
+    # Close the database connection
+
+
+    # Prepare data for Highcharts
+    data1 = []
+    for row in results1:
+        occurrences, date = row
+        data1.append({'date': date, 'occurrences': occurrences})
+
+    # Close the database connection
+    cursor.close()
+    conn.close()
+
+    return render_template('pie.html',data1=data1)
+
 if __name__ == '__main__':
     app.run(debug=True)
