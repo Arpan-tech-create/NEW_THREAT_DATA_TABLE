@@ -150,21 +150,6 @@
         </tbody>
     </table>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.response-checkbox').on('click', function() {
-                var checkboxValue = $(this).val();
-                if (checkboxValue === '20x') {
-                    $('input[value="200"]').prop('checked', this.checked);
-                    $('input[value="203"]').prop('checked', this.checked);
-                } else if (checkboxValue === '40x') {
-                    $('input[value="400"]').prop('checked', this.checked);
-                    $('input[value="403"]').prop('checked', this.checked);
-                }
-                // Add more if conditions for other ranges as needed
-            });
-        });
-    </script>
+
 </body>
 </html>
